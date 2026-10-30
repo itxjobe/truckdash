@@ -83,6 +83,13 @@ Studio), and the head unit on the same Wi-Fi.
    scripts/dev.sh install
    ```
 5. Turn the truck off, wait 10 seconds, and start it. The dash should come up with a live picture.
+6. **Turn Wireless debugging off** when you are done. Left on, anyone on the same network who can
+   pair with the unit gets a shell on it.
+
+On a unit whose CanType is not 16, the dash still shows the radio picture, clock and climate
+values, but sends no climate, seat or touch commands to the truck. See
+[Adapting to another unit or vehicle](docs/how-it-works.md#adapting-to-another-unit-or-vehicle) to
+enable them for yours (`UnitCheck.kt`).
 
 **Undo:** `scripts/dev.sh uninstall` (or `adb uninstall com.jreid.truckdash`). Home falls back to the
 stock launcher. The dash changes nothing else on the unit except the vendor auto-start slot, which
@@ -121,10 +128,13 @@ but the lower target keeps the vendor broadcasts and provider access simple).
 - The video window shows only what the factory radio shows. No phone-connected detection exists, so
   there is no "plug in your phone" prompt.
 - Touches on the video window are forwarded even when the picture is black.
+- If the vendor video library is missing, the video window stays black (the app logs why and keeps
+  running).
 - Climate controls on the bar can be tapped before the first state arrives from the truck.
 - Only tested on one unit and one truck.
 
 ## License
 
-MIT, see [LICENSE](LICENSE). Not affiliated with GM, Chevrolet, ZXW or Choiceway. Product names are
-used only to say what this works with.
+MIT, see [LICENSE](LICENSE). Not affiliated with or endorsed by GM, Chevrolet, GMC, Apple, Google,
+ZXW or Choiceway. Apple CarPlay, Android Auto, Silverado and Sierra are trademarks of their owners;
+names are used only to say what this works with.

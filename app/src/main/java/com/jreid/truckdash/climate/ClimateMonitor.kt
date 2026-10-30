@@ -26,7 +26,10 @@ class ClimateMonitor(private val context: Context, private val onState: (Climate
     }
 
     fun start() { context.registerReceiver(receiver, IntentFilter().apply { addAction(AIR); addAction(OUTSIDE) }) }
-    fun stop() = context.unregisterReceiver(receiver)
+    /** Safe to call even if start() never ran or failed. */
+    fun stop() {
+        try { context.unregisterReceiver(receiver) } catch (_: IllegalArgumentException) {}
+    }
 
     /** Forget everything (ACC off); values come back with the next broadcasts. */
     fun reset() { store.reset(); onState(store.current()) }

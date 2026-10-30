@@ -14,7 +14,10 @@ class AccMonitor(private val context: Context, private val onEvent: (StartupEven
     }
 
     fun start() { context.registerReceiver(receiver, IntentFilter(ACTION)) }
-    fun stop() = context.unregisterReceiver(receiver)
+    /** Safe to call even if start() never ran or failed. */
+    fun stop() {
+        try { context.unregisterReceiver(receiver) } catch (_: IllegalArgumentException) {}
+    }
 
     companion object {
         const val ACTION = "com.szchoiceway.eventcenter.EventUtils.ACTION_ACC_SLEEP_STATUS_EVT"

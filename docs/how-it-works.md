@@ -118,7 +118,9 @@ See [notes/bottom-bar.md](notes/bottom-bar.md).
 2. **Check the video path.** If your unit has no `/sys/lt8918/` it may use a different bridge
    (the Console checks `mIsLT9211Camera`). Copy whatever your Console does before `openCamera`.
 3. **Check the climate codes** by tapping each control in the Console app and reading the `SRX`
-   lines. Update `climate/ClimateKeys.kt`.
+   lines. Update `climate/ClimateKeys.kt`, then add your CanType to `UnitCheck.kt` (the vendor
+   setting `Sys_CarType`; the dash logs it at start as `TruckDash: CanType=..`). Until then the dash
+   sends no car commands on your unit.
 4. **Check the screen size.** Layout is in `ui/DashLayout.kt` (1440x1920 portrait). The video window
    position and size are there too.
 5. **Run the tests** (`scripts/dev.sh test`), install, and try every control with the truck parked.

@@ -17,7 +17,8 @@ for cmd in "$@"; do
              adb_ pull "$apk" "$tmp/console.apk" >/dev/null
              mkdir -p "$(dirname "$LIB")"; unzip -p "$tmp/console.apk" lib/arm64-v8a/libcamera_utils.so > "$LIB"
              rm -rf "$tmp"; echo "wrote $LIB" ;;
-    build)   ./gradlew -q assembleDebug ;;
+    build)   [ -s "$LIB" ] || echo "warning: $LIB missing, the video window will stay black (run: scripts/dev.sh vendor-lib)" >&2
+             ./gradlew -q assembleDebug ;;
     test)    ./gradlew -q testDebugUnitTest ;;
     install) [ -s "$LIB" ] || { echo "run: scripts/dev.sh vendor-lib  (first time only)" >&2; exit 1; }
              ./gradlew -q assembleDebug  # never install a stale APK

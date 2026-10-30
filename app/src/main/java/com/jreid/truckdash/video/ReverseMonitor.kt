@@ -16,7 +16,10 @@ class ReverseMonitor(private val context: Context, private val onChange: (Boolea
         onChange(readProperty() == "1")
     }
 
-    fun stop() = context.unregisterReceiver(receiver)
+    /** Safe to call even if start() never ran or failed. */
+    fun stop() {
+        try { context.unregisterReceiver(receiver) } catch (_: IllegalArgumentException) {}
+    }
 
     private fun readProperty(): String = try {
         Class.forName("android.os.SystemProperties")

@@ -55,7 +55,10 @@ class DashActivity : Activity() {
         val c = DashLayout.clockBlock
         val clock = ClockView(this)
         root.addView(clock, FrameLayout.LayoutParams(c.width, c.height).apply { leftMargin = c.left; topMargin = c.top })
-        val sender = McuSender(this)
+        val canType = UnitCheck.readCanType(this)
+        val carCommands = UnitCheck.allowsCarCommands(canType)
+        Log.i("TruckDash", "CanType=$canType car commands ${if (carCommands) "on" else "off (untested unit)"}")
+        val sender = McuSender(this, carCommands)
         val pressKey = { key: Int ->
             sender.send(McuPackets.climateKey(key, true))
             sender.send(McuPackets.climateKey(key, false))

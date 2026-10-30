@@ -7,3 +7,15 @@ app/build/
 build/
 .gradle/
 local.properties
+# Build outputs, signing keys, IDE and OS files
+*.apk
+*.aab
+*.jks
+*.keystore
+.idea/
+*.iml
+captures/
+.DS_Store
+# Vendor APKs and decompiled output stay local
+apks/
+decomp/

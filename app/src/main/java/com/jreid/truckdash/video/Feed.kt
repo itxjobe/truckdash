@@ -22,6 +22,7 @@ class AisFeed(private val sendMcu: (ByteArray) -> Unit) : Feed {
 
     override fun open(surface: Surface): Boolean {
         if (opened) return true
+        if (!CameraUtils.AVAILABLE) return false
         restoreStockTiming()
         CameraUtils.setSurface(surface, 0)
         CameraUtils.setSensorOutputFmt(1)
@@ -39,7 +40,7 @@ class AisFeed(private val sendMcu: (ByteArray) -> Unit) : Feed {
         Log.i(TAG, "closeCamera")
     }
 
-    override fun frameCount(): Int = CameraUtils.getFrameCount(0)
+    override fun frameCount(): Int = if (opened) CameraUtils.getFrameCount(0) else 0
 
     /** Never a custom value: only the vendor's own string, so the bridge is exactly as the Console leaves it. */
     private fun restoreStockTiming() {
