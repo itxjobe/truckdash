@@ -1,0 +1,9 @@
+# Local toolchains (optional, see README)
+platform-tools/
+tools/
+# Vendor binary: pulled from your own head unit with scripts/dev.sh vendor-lib, never committed
+app/src/main/jniLibs/
+app/build/
+build/
+.gradle/
+local.properties
